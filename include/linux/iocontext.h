@@ -39,6 +39,7 @@ enum {
 };
 
 /*
+/*
  * I/O subsystem state of the associated processes.  It is refcounted
  * and kmalloc'ed. These could be shared between processes.
  */
