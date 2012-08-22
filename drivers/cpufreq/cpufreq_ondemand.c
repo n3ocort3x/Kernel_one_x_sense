@@ -37,8 +37,8 @@
  * It helps to keep variable names smaller, simpler
  */
 
-#define DEF_FREQUENCY_DOWN_DIFFERENTIAL		(10)
-#define DEF_FREQUENCY_UP_THRESHOLD		(80)
+#define DEF_FREQUENCY_DOWN_DIFFERENTIAL		(10) 		/*10*/
+#define DEF_FREQUENCY_UP_THRESHOLD		(90) 		/*80*/
 #define DEF_SAMPLING_DOWN_FACTOR		(1)
 #define MAX_SAMPLING_DOWN_FACTOR		(100000)
 #define MICRO_FREQUENCY_DOWN_DIFFERENTIAL	(3)
@@ -46,7 +46,7 @@
 #define MICRO_FREQUENCY_MIN_SAMPLE_RATE		(15000)
 #define MIN_FREQUENCY_UP_THRESHOLD		(11)
 #define MAX_FREQUENCY_UP_THRESHOLD		(100)
-#define DEF_SAMPLING_RATE			(50000)
+#define DEF_SAMPLING_RATE			(60000) 	/*50000*/ 
 #define DEF_IO_IS_BUSY				(1)
 
 /*
@@ -826,8 +826,8 @@ static void dbs_refresh_callback(struct work_struct *unused)
 		}
 		break;
 	case 2:
-		if (policy->cur < policy->max && policy->cur < 1100000) {
-			__cpufreq_driver_target(policy, 1100000,
+		if (policy->cur < policy->max && policy->cur < 880000) {
+			__cpufreq_driver_target(policy, 880000,
 				CPUFREQ_RELATION_L);
 			this_dbs_info->prev_cpu_idle = get_cpu_idle_time(0,
 				&this_dbs_info->prev_cpu_wall);
