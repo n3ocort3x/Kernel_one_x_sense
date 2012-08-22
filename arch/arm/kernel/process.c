@@ -32,7 +32,6 @@
 #include <linux/hw_breakpoint.h>
 
 #include <asm/cacheflush.h>
-#include <asm/leds.h>
 #include <asm/processor.h>
 #include <asm/system.h>
 #include <asm/thread_notify.h>
@@ -200,22 +199,20 @@ EXPORT_SYMBOL(pm_debug_dvfs);
 #include <linux/time.h>
 #include <linux/rtc.h>
 #include <mach/board_htc.h>
-extern void htc_print_active_wake_locks();
+extern void htc_print_active_wake_locks(void);
 /*
  * The idle thread, has rather strange semantics for calling pm_idle,
  * but this is what x86 does and we need to do the same, so that
  * things like cpuidle get called in the same way.  The only difference
  * is that we always respect 'hlt_counter' to prevent low power idle.
  */
-void cpu_idle(void)
-{
-
-    static bool bPrint_wake_lock = true;
-    struct timespec ts;
-    struct rtc_time tm;
+void cpu_idle(void) {
+	static bool bPrint_wake_lock = true;
+	struct timespec ts;
+	struct rtc_time tm;
+	u64 cur_time, last_time;
 
 	local_fiq_enable();
-	u64 cur_time, last_time;
 	last_time = cpu_clock(UINT_MAX);
 	/* endless idle loop with no priority at all */
 	while (1) {
@@ -237,7 +234,7 @@ void cpu_idle(void)
 			bPrint_wake_lock = !bPrint_wake_lock;
 		}
 		tick_nohz_stop_sched_tick(1);
-		leds_event(led_idle_start);
+		idle_notifier_call_chain(IDLE_START);
 		while (!need_resched()) {
 #ifdef CONFIG_HOTPLUG_CPU
 			if (cpu_is_offline(smp_processor_id()))
@@ -261,8 +258,8 @@ void cpu_idle(void)
 				local_irq_enable();
 			}
 		}
-		leds_event(led_idle_end);
 		tick_nohz_restart_sched_tick();
+                idle_notifier_call_chain(IDLE_END);
 		preempt_enable_no_resched();
 		schedule();
 		preempt_disable();
