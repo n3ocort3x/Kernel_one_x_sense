@@ -238,15 +238,9 @@
 #define MMIO_BASE		(TEGRA_PCIE_BASE + SZ_4M)
 #define MMIO_SIZE		SZ_64K
 #define MEM_BASE_0		(TEGRA_PCIE_BASE + SZ_256M)
-#define MEM_SIZE_0		SZ_128M
-#define MEM_BASE_1		(MEM_BASE_0 + MEM_SIZE_0)
-#define MEM_SIZE_1		SZ_128M
-#define MEM_SIZE		(MEM_SIZE_0 + MEM_SIZE_1)
-#define PREFETCH_MEM_BASE_0	(MEM_BASE_1 + MEM_SIZE_1)
-#define PREFETCH_MEM_SIZE_0	SZ_128M
-#define PREFETCH_MEM_BASE_1	(PREFETCH_MEM_BASE_0 + PREFETCH_MEM_SIZE_0)
-#define PREFETCH_MEM_SIZE_1	SZ_128M
-#define PREFETCH_MEM_SIZE	(PREFETCH_MEM_SIZE_0 + PREFETCH_MEM_SIZE_1)
+#define MEM_SIZE		SZ_256M
+#define PREFETCH_MEM_BASE_0	(MEM_BASE_0 + MEM_SIZE)
+#define PREFETCH_MEM_SIZE	SZ_512M
 
 #else
 
@@ -1159,10 +1153,9 @@ static bool tegra_pcie_check_link(struct tegra_pcie_port *pp, int idx,
 
 retry:
 		/* Pulse the PEX reset */
-		reg = afi_readl(reset_reg) | AFI_PEX_CTRL_RST;
-		afi_writel(reg, reset_reg);
-		mdelay(1);
 		reg = afi_readl(reset_reg) & ~AFI_PEX_CTRL_RST;
+		afi_writel(reg, reset_reg);
+		reg = afi_readl(reset_reg) | AFI_PEX_CTRL_RST;
 		afi_writel(reg, reset_reg);
 
 		retries--;
@@ -1200,7 +1193,7 @@ static void __init tegra_pcie_add_port(int index, u32 offset, u32 reset_reg)
 	memset(pp->res, 0, sizeof(pp->res));
 }
 
-static int __init tegra_pcie_init(void)
+static int tegra_pcie_init(void)
 {
 	int err = 0;
 	int port;
