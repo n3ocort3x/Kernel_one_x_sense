@@ -812,7 +812,7 @@ static int tegra_cpu_init(struct cpufreq_policy *policy)
 	}
 
 	policy->max = 1500 * 1000;
-	policy->min = 340 * 1000;
+	policy->min = 51 * 1000;
 
 	return 0;
 }
