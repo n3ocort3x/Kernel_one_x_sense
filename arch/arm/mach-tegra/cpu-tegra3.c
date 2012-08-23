@@ -435,8 +435,8 @@ static void tegra_auto_cpuplug_work_func(struct work_struct *work)
 			if (cpu < nr_cpu_ids) {
 				up = false;
 				hp_stats_update(cpu, false);
-			} else if (!is_lp_cluster() && !no_lp) &&
-				!pm_qos_request(PM_QOS_MIN_ONLINE_CPUS)) { -
+			} else if (!is_lp_cluster() && !no_lp &&
+				!pm_qos_request(PM_QOS_MIN_ONLINE_CPUS)) {
 
 				/* Invalid request, why put sth down that is not there?
 				   This would cause a NULL pointer dereference in
