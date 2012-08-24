@@ -49,7 +49,7 @@
 #include "dvfs.h"
 #include "pm.h"
 
-#define BOOST_CPU_FREQ_MIN 1500000
+#define BOOST_CPU_FREQ_MIN 1000000
 #define CAP_CPU_FREQ_MAX 475000
 
 /* Symbol to store resume resume */
@@ -692,7 +692,7 @@ int tegra_cpu_set_speed_cap(unsigned int *speed_cap)
 int tegra_cpu_resume_boost(unsigned int *speed_cap)
 {
 	int ret = 0;
-	unsigned int new_speed = 1500000;
+	unsigned int new_speed = 1000000;
 
 	if (is_suspended)
 		return -EBUSY;
