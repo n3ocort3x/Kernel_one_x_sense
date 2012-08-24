@@ -425,6 +425,12 @@ config TEGRA_LEGACY_AUDIO
 	  Say Y if you want to add support legacy (non-ALSA) audio APIs on
 	  Tegra. This will disable ALSA (ASoC) support.
 
+config TEGRA_3D_GPU_OVERCLOCK
+	bool "GPU 3D Overclocking"
+	default n
+	help
+	  GPU 3D Overclocking option
+
 config TEGRA_STAT_MON
         bool "Enable H/W statistics monitor"
         depends on ARCH_TEGRA_2x_SOC
