@@ -811,7 +811,7 @@ static int tegra_cpu_init(struct cpufreq_policy *policy)
 		register_pm_notifier(&tegra_cpu_pm_notifier);
 	}
 
-	policy->max = 1500 * 1000;
+	policy->max = 1200 * 1000;
 	policy->min = 102 * 1000;
 
 	return 0;
