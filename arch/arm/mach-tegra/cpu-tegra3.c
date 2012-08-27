@@ -430,7 +430,6 @@ static void tegra_auto_cpuplug_work_func(struct work_struct *work)
 				hp_stats_update(cpu, true);
 			}
 			break;
-
 		case TEGRA_HP_DOWN:
 			cpu = tegra_get_slowest_cpu_n();
 			if (cpu < nr_cpu_ids) {
